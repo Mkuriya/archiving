@@ -1,0 +1,32 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+.login{
+    background: url(/img/background.jpg);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.holder{
+    background: rgba(199, 199, 199, 0.555);
+
+}
+body{
+    background:linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)), url(/img/background.jpg);
+    height: 100vh;
+    width: 100%;
+    background-size: cover;
+    background-position: center;
+
+    background-attachment: fixed;
+}
+.hide-arrows::-webkit-inner-spin-button,
+.hide-arrows::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.hide-arrows {
+    -moz-appearance: textfield;
+}
