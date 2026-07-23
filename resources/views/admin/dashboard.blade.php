@@ -107,7 +107,7 @@
                     Recent Uploads
                 </h2>
 
-                <a href="/admin/dashboard/archive"
+                <a href="/admin/dashboard/archive/pending"
                 class="text-sm text-blue-600 hover:underline">
                     View All
                 </a>

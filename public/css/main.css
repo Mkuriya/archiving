@@ -30,3 +30,42 @@ body{
 .hide-arrows {
     -moz-appearance: textfield;
 }
+ /* Hover color of dropdown items */
+    .ts-dropdown .option:hover,
+    .ts-dropdown .active {
+        background-color: #1e3a8a !important; /* blue */
+        color: white !important;
+    }
+
+    /* Selected value text */
+    .ts-control {
+        font-size: 16px !important;
+        min-height: 48px;
+    }
+
+    /* Placeholder text */
+    .ts-control input {
+        font-size: 16px !important;
+    }
+
+    /* Dropdown options */
+    .ts-dropdown .option {
+        font-size: 16px !important;
+        padding: 12px !important;
+    }
+
+    /* Labels */
+    label {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+   .data {
+    height: 500px;
+    overflow-y: auto;
+}
+
+.max-height {
+  max-height: 20rem;
+  overflow-y: auto;
+}

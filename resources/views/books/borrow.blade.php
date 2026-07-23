@@ -34,7 +34,7 @@
             <h1 class="text-2xl font-bold text-black mb-6 border-b border-gray-700 pb-3">
                 📚 Borrow Research Book
             </h1>
-            <input type="text" name="status" class="border border-gray-600" value="0">
+            <input hidden type="text" name="status" class="border border-gray-600" value="0">
 
             <!-- Borrow Information -->
             <div class="grid md:grid-cols-2 gap-6 mt-4">
@@ -43,7 +43,8 @@
                     <label class="block text-sm font-medium mb-2">
                         Borrow Date
                     </label>
-                    <input type="date" name="b_date" value="{{ date('Y-m-d') }}" class="w-full px-4 py-3 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                   <input type="datetime-local" name="b_date" value="{{ old('b_date', now()->format('Y-m-d\TH:i')) }}"
+                    class="w-full px-4 py-3 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none">
                 </div>
 
                 <!-- Book Number -->
@@ -77,7 +78,7 @@
                 <label class="block text-sm font-medium mb-2">
                     Expected Return Date
                 </label>
-                <input type="date" name="r_date" class="w-full px-4 py-3 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <input type="datetime-local" name="r_date" class="w-full px-4 py-3 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none">
             </div>
             <!-- Buttons -->
             <div class="flex justify-end gap-4 mt-6">
@@ -93,7 +94,7 @@
         </div>
     </form>
 </section>
-
+@include('partials.notif')
 <script>
 document.addEventListener('DOMContentLoaded', function () {
 

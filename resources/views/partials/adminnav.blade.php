@@ -19,7 +19,7 @@
       <a class="hover:text-amber-500" href="/admin/dashboard/archive">Archive List</a>
       <a class="hover:text-amber-500" href="/admin/dashboard/thesis/upload">Upload</a>
       <a class="hover:text-amber-500" href="/admin/dashboard/search">Search</a>
-      <br>
+      <a class="hover:text-amber-500" href="/admin/dashboard/instructor/list">Instructor List</a>
       <a class="hover:text-amber-500" href="/admin/dashboard/borrow/list">Borrowed List</a>
       <hr>
       <a class="hover:text-amber-500"><form action="/admin/logout" method="POST">

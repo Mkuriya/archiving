@@ -135,8 +135,14 @@
                         <h2 class="text-sm font-bold text-white  line-clamp-3 ">
                             TITLE:  ${highlight(String(file.title), search)}
                         </h2>
+                        ${
+                            file.adviser == null
+                            ? `<span class="ml-2 text-red-600 text-xs font-semibold">
+                                    ⚠ Missing Hardcopy
+                            </span>`
+                            : ''
+                        }
                     </div>
-
                     <div class="p-4 text-gray-700 text-sm flex flex-col h-[270px]">
                         <p>
                             <b>Book Number:</b> ${highlight(String(file.book_number), search)}

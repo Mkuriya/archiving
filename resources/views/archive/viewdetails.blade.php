@@ -37,7 +37,6 @@
             readonly
         >{{ $file->abstract }}</textarea>
     </div>
-
     <div class="mt-4 ">
         <label class="text-gray-200">APA Citation</label>
         <textarea rows="2" readonly oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'" class="block w-full px-4 py-2 mt-2 border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-white">{{ $file->citation }}</textarea>

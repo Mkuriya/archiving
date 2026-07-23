@@ -7,6 +7,7 @@ use App\Http\Controllers\FileController;
 use App\Http\Controllers\ViewController;
 use App\Http\Controllers\OldView;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\BorrowController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\PasswordController;
 
@@ -63,7 +64,12 @@ Route::controller(FileController::class)->group(function(){
 });
 
 
+Route::controller(BorrowController::class)->group(function(){
 
+    Route::delete('/items/{id}', 'destroy')->name('items.destroy');
+
+    Route::put('/admin/dashboard/borrow/list/{file}', 'borrowUpdate');
+});
 
 Route::controller(ViewController::class)->group(function(){
 
@@ -92,20 +98,18 @@ Route::controller(ViewController::class)->group(function(){
     Route::get('/admin/dashboard/borrow/list', 'b_list')->name('archive.b_list');
     Route::get('/admin/dashboard/search/details/{id}', 'details')->name('archive.viewdetailss');
     Route::get('/admin/dashboard/instructor', 'instructor')->name('instructor');
+    Route::get('/admin/dashboard/instructor/list', 'instructorlist')->name('instructorlist');
 });
 
 Route::controller(InstructorController::class)->group(function(){
 
     Route::post('/admin/dashboard/create_instructor', 'instructorRegister');
+    Route::post('/admin/dashboard/assign_instructor', 'instructorAssign');
 
 });
-
-Route::get('/home', function () {
-    return view('/admin/login')->name('home');
-});
-
-
-
+Route::get('/admin/login', function () {
+    return view('admin.login');
+})->name('home');
 
 
 

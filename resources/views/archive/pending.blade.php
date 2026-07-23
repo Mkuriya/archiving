@@ -217,51 +217,45 @@
                             {{-- disabled --}}    <input id="modal-department" name="department"  type="text" class="block w-full px-4 py-2 mt-2 border border-black rounded-md  focus:border-blue-500 focus:outline-none focus:ring">
                             </div>
                         </div><br>
-                            <div class="col-span-12 sm:col-span-4 ">
-                                <label class="pl-2" for="title">Citation</label>
-        {{-- disabled --}}      <input id="modal-citation" name="citation"  type="text" class="block w-full px-4 py-2 mt-2 border border-black rounded-md  focus:border-blue-500 focus:outline-none focus:ring">
+                        <div class="col-span-12 sm:col-span-4 ">
+                            <label class="pl-2" for="title">Citation</label>
+        {{-- disabled --}}     <input id="modal-citation" name="citation"  type="text" class="block w-full px-4 py-2 mt-2 border border-black rounded-md  focus:border-blue-500 focus:outline-none focus:ring">
+                        </div>
+                        <div class="grid grid-cols-2 gap-6  sm:grid-cols-12 mt-4">
+                            <div class="col-span-12 sm:col-span-6">
+                                <label class="pl-2" for="lastname">Adviser</label>
+                                <input id="modal-adviser" onchange="upperCase()" name="adviser" type="text" class="block w-full px-4 py-2 mt-2 border border-black rounded-md  focus:border-blue-500 focus:outline-none focus:ring">
                             </div>
-                            <div class="grid grid-cols-2 gap-6  sm:grid-cols-12 mt-4">
-                                <div class="col-span-12 sm:col-span-6">
-                                    <label class="pl-2" for="lastname">Adviser</label>
-                                    <input id="modal-adviser" onchange="upperCase()" name="adviser" type="text" class="block w-full px-4 py-2 mt-2 border border-black rounded-md  focus:border-blue-500 focus:outline-none focus:ring">
-                                </div>
-                                <div class="col-span-12 sm:col-span-6">
-                                    <label class=" pl-2 font-semibold flex items-center gap-2" for="firstname">
-                                        Status
-                                        <span class="text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">Editable</span>
-                                    </label>
-                                        <select id="modal-status" name="status" class="block w-full px-3 py-2 mt-2 border-2 rounded-md  border-blue-500 focus:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                            <option value="0" >Pending</option>
-                                            <option value="1" >Approve</option>
-                                            <option value="2" >Decline</option>
-                                        </select>
-                                </div>
+                            <div class="col-span-12 sm:col-span-6">
+                                <label class=" pl-2 font-semibold flex items-center gap-2" for="firstname">
+                                    Status
+                                    <span class="text-xs bg-blue-600 text-white px-2 py-0.5 rounded-full">Editable</span>
+                                </label>
+                                    <select id="modal-status" name="status" class="block w-full px-3 py-2 mt-2 border-2 rounded-md  border-blue-500 focus:border-blue-300 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                        <option value="0" >Pending</option>
+                                        <option value="1" >Approve</option>
+                                        <option value="2" >Decline</option>
+                                    </select>
                             </div>
-                                <div class="grid grid-cols-3 gap-6 mt-4 sm:grid-cols-12">
-                                    <div class="col-span-12 sm:col-span-12">
-                                        <label for="members" class="">Members</label>
-                                        <textarea name="members" id="modal-members" cols="0" rows="2" class="block w-full px-4 py-2 sm:mt-2  border border-black rounded-md  focus:border-white"  ></textarea>
-                                    </div>
-                                </div>
-                                <div class="grid grid-cols-3 gap-6 mt-4 sm:grid-cols-12">
-                                    <div class="col-span-12 sm:col-span-12">
-                                        <label for="abstract" class="">Abstract/Introduction</label>
-    {{-- -readonly --}}                 <textarea name="abstract" id="modal-abstract" cols="0" rows="5" class="block w-full px-4 py-2 sm:mt-2  border border-black rounded-md  focus:border-white"  ></textarea>
-                                    </div>
-                                </div>
-                                <div class=" px-6 py-4 border-t flex justify-end gap-2">
-                                    <button type="button" class="modal-close px-5 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Close</button>
-                                    <button type="submit" class="px-5 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">Update</button>
-                                </div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-6 mt-4 sm:grid-cols-12">
+                            <div class="col-span-12 sm:col-span-12">
+                                <label for="members" class="">Members</label>
+                                <textarea name="members" id="modal-members" cols="0" rows="2" class="block w-full px-4 py-2 sm:mt-2  border border-black rounded-md  focus:border-white"  ></textarea>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-6 mt-4 sm:grid-cols-12">
+                            <div class="col-span-12 sm:col-span-12">
+                                <label for="abstract" class="">Abstract/Introduction</label>
+    {{-- -readonly --}}         <textarea name="abstract" id="modal-abstract" cols="0" rows="5" class="block w-full px-4 py-2 sm:mt-2  border border-black rounded-md  focus:border-white"  ></textarea>
+                            </div>
+                        </div>
+                        <div class=" px-6 py-4 border-t flex justify-end gap-2">
+                            <button type="button" class="modal-close px-5 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">Close</button>
+                            <button type="submit" class="px-5 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">Update</button>
+                        </div>
                     </form>
                 </div>
-
-
-
-
-
-
             </div>
         </div>
     </div>

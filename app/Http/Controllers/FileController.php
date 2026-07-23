@@ -2,10 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Log;
 use App\Models\File;
-use App\Models\History;
-use App\Models\Student;
 use App\Models\Borrow;
 use Illuminate\Http\Request;
 
@@ -21,12 +18,13 @@ class FileController extends Controller
             'status' => 'required',
         ]);
         $borrows = Borrow::create($validated);
-    return back();
+    return back()->with('success', 'Borrow Book successfully.');
     }
 
     public function updateAbstract(Request $request, $id)/* Function for details update */
     {
         $request->validate([
+            'title' => 'nullable|string',
             'abstract' => 'nullable|string',
             'year' => 'required|integer',
             'members' => 'required|string',
@@ -38,6 +36,7 @@ class FileController extends Controller
         $file = File::findOrFail($id);
 
         $file->update([
+            'title' => $request->title,
             'abstract' => $request->abstract,
             'year' => $request->year,
             'members' => $request->members,
@@ -57,7 +56,7 @@ class FileController extends Controller
 
         return back()->with('success', 'Item deleted successfully.');
     }
- public function declinefileUpdate(File $file, Request $request) /* Function for pending update */
+    public function declinefileUpdate(File $file, Request $request) /* Function for pending update */
     {
         $data = $request->validate([
             'status' => 'required',
@@ -69,7 +68,6 @@ class FileController extends Controller
 
         return redirect('/admin/dashboard/archive/decline')->with('success', 'File updated successfully!');
     }
-
 
         public function fileUpdate(File $file, Request $request) /* Function for pending update */
     {
@@ -112,13 +110,7 @@ class FileController extends Controller
             'book_number' => 'required|unique:files,book_number',
             'status' => 'required',
         ]);
-
-
-
         $upload = File::create($validated);
         return redirect('/admin/dashboard')->with('success', 'File uploaded successfully!');
     }
-
-
-
 }

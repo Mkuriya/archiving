@@ -13,5 +13,14 @@ class Instructorbook extends Model
             'file_id',
         ];
 
+// Instructorbook.php
+public function instructor()
+{
+    return $this->belongsTo(Instructor::class);
+}
 
+public function file()
+{
+    return $this->belongsTo(File::class);
+}
 }

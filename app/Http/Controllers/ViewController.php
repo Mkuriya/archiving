@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\File;
 use App\Models\Admin;
-use App\Models\History;
-use App\Models\Student;
 use App\Models\Borrow;
+use App\Models\File;
+use App\Models\History;
 use App\Models\Instructor;
+use App\Models\Instructorbook;
+use App\Models\Student;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -17,8 +19,50 @@ class ViewController extends Controller
 {
 
 
+    public function instructorlist(Request $request)
+    {
+        $search = $request->search;
 
+        $instructors = Instructor::orderBy('name')->get();
+        $books = File::orderBy('book_number')->get();
 
+        $query = Instructorbook::with(['instructor', 'file']);
+
+        if ($search) {
+            $query->whereHas('instructor', function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%");
+            });
+        }
+
+        $grouped = $query->latest()
+                        ->get()
+                        ->groupBy('instructor_id');
+
+        $page = request()->get('page', 1);
+        $perPage = 15;
+
+        $items = $grouped->slice(
+            ($page - 1) * $perPage,
+            $perPage
+        );
+
+        $assignments = new LengthAwarePaginator(
+            $items,
+            $grouped->count(),
+            $perPage,
+            $page,
+            [
+                'path' => request()->url(),
+                'query' => request()->query(),
+            ]
+        );
+
+        return view('books.instructorlist', compact(
+            'instructors',
+            'books',
+            'assignments'
+        ));
+    }
 public function instructor()
 {
     $instructors = Instructor::orderBy('name')->get();
@@ -234,7 +278,7 @@ public function instructor()
     }
 
     public function adminDashboard(){
-        $recentUploads = File::latest()->take(5)->get();
+        $recentUploads = File::latest()->take(6)->get();
 
         $totalUpload = File::where('status', 1)->count();
         $totalPending = File::where('status', 0)->count();

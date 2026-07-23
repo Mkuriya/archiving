@@ -9,7 +9,7 @@
         @method('PUT')
         <div class="mt-4">
             <label for="title" class="text-gray-200">Title</label>
-            <textarea name="title" id="modal-title" cols="0" rows="2" class="block w-full px-4 py-2 sm:mt-2  border  rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-white" readonly >{{ $file->title }}</textarea>
+            <textarea name="title" id="modal-title" cols="0" rows="2" class="block w-full px-4 py-2 sm:mt-2  border  rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-white" >{{ $file->title }}</textarea>
 
         </div>
         <div class="grid grid-cols-1 md:grid-cols-12 gap-4">
