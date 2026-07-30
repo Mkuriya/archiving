@@ -1,5 +1,5 @@
 @include('partials.adminnav')
-<section class="max-w-5xl pt-6 px-6 mx-auto rounded-md shadow-md bg-gray-800 sm:mt-4 mt-0">
+<section class="max-w-5xl pt-6 px-6 mx-auto rounded-md shadow-md     sm:mt-4 mt-0">
     <h1 class="text-xl font-bold text-white capitalize ">Research Details</h1>
 
     <div class="mt-4">
@@ -41,16 +41,15 @@
         <label class="text-gray-200">APA Citation</label>
         <textarea rows="2" readonly oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px'" class="block w-full px-4 py-2 mt-2 border rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-white">{{ $file->citation }}</textarea>
     </div>
-  <div class="flex justify-center py-4">
-    <button
-        type="button"
-         onclick="history.back()"
-        class="px-24 py-2 leading-5 text-white transition-colors duration-200 transform bg-blue-900 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-600">
-        Back
-    </button>
-</div>
+    <div class="flex justify-center py-4">
+        <button
+            type="button"
+            onclick="history.back()"
+            class="px-24 py-2 leading-5 text-white transition-colors duration-200 transform bg-blue-900 rounded-md hover:bg-gray-700 focus:outline-none focus:bg-gray-600">
+            Back
+        </button>
+    </div>
 </section>
 
 
-
-</div>
+@include('partials.notif')

@@ -31,29 +31,61 @@ body{
     -moz-appearance: textfield;
 }
  /* Hover color of dropdown items */
-    .ts-dropdown .option:hover,
-    .ts-dropdown .active {
-        background-color: #1e3a8a !important; /* blue */
-        color: white !important;
-    }
 
-    /* Selected value text */
-    .ts-control {
+
+.ts-control {
+        background-color: #1f2937 !important; /* gray-800 to match your card */
+        border: 1px solid #4b5563 !important;  /* gray-600 border */
+        color: #ffffff !important;
+        border-radius: 0.75rem; /* rounded-xl, optional */
         font-size: 16px !important;
         min-height: 48px;
     }
 
-    /* Placeholder text */
+    /* Text typed into the search box */
     .ts-control input {
-        font-size: 16px !important;
+         font-size: 16px !important;
+        color: #ffffff !important;
     }
 
-    /* Dropdown options */
+    /* Placeholder text */
+    .ts-control input::placeholder {
+        color: #9ca3af !important; /* gray-400 */
+    }
+
+    /* Selected item "pill" (if using multi-select) */
+    .ts-control .item {
+        background-color: #374151 !important;
+        color: #ffffff !important;
+    }
+
+    /* Dropdown panel with suggestions */
+    .ts-dropdown {
+        background-color: #1f2937 !important;
+        color: #ffffff !important;
+        border: 1px solid #4b5563 !important;
+    }
+
+    /* Each option row */
     .ts-dropdown .option {
+        color: #ffffff !important;
+        background-color: #1f2937 !important;
         font-size: 16px !important;
         padding: 12px !important;
     }
 
+    /* Hover / active option */
+    .ts-dropdown .option.active,
+    .ts-dropdown .option:hover {
+        background-color: #374151 !important;
+        color: #ffffff !important;
+    }
+
+    /* Focus ring when the box is active */
+    .ts-control.focus {
+        box-shadow: 0 0 0 2px #10b981 !important; /* green-500, matches your button */
+        border-color: #10b981 !important;
+    }
     /* Labels */
     label {
         font-size: 16px;
@@ -68,4 +100,59 @@ body{
 .max-height {
   max-height: 20rem;
   overflow-y: auto;
+}
+
+.margin {
+   padding-bottom: 1rem;
+}
+.bg-primary {
+    background-color: #0B2545;
+}
+
+.bg-primary-hover:hover {
+    background-color: #13315C;
+}
+
+.bg-secondary {
+    background-color: #3E5C76;
+}
+
+.bg-accent {
+    background-color: #F4A825;
+}
+
+.bg-accent-hover:hover {
+    background-color: #D68910;
+}
+
+.bg-success {
+    background-color: #2E7D32;
+}
+
+.bg-danger {
+    background-color: #C0392B;
+}
+
+.bg-neutral-light {
+    background-color: #F1F3F6;
+}
+
+.text-dark {
+    color: #1E1E24;
+}
+
+.text-mid {
+    color: #6B7280;
+}
+
+.text-white {
+    color: #FFFFFF;
+}
+
+.option {
+    background-color: #1f2937;
+    color: white;
+}
+.text-color{
+    color: red;
 }

@@ -19,64 +19,74 @@ class ViewController extends Controller
 {
 
 
-    public function instructorlist(Request $request)
-    {
-        $search = $request->search;
-
-        $instructors = Instructor::orderBy('name')->get();
-        $books = File::orderBy('book_number')->get();
-
-        $query = Instructorbook::with(['instructor', 'file']);
-
-        if ($search) {
-            $query->whereHas('instructor', function ($q) use ($search) {
-                $q->where('name', 'like', "%{$search}%");
-            });
-        }
-
-        $grouped = $query->latest()
-                        ->get()
-                        ->groupBy('instructor_id');
-
-        $page = request()->get('page', 1);
-        $perPage = 15;
-
-        $items = $grouped->slice(
-            ($page - 1) * $perPage,
-            $perPage
-        );
-
-        $assignments = new LengthAwarePaginator(
-            $items,
-            $grouped->count(),
-            $perPage,
-            $page,
-            [
-                'path' => request()->url(),
-                'query' => request()->query(),
-            ]
-        );
-
-        return view('books.instructorlist', compact(
-            'instructors',
-            'books',
-            'assignments'
-        ));
-    }
-public function instructor()
+   public function instructorlist(Request $request)
 {
-    $instructors = Instructor::orderBy('name')->get();
+    $search = $request->search;
 
+    $instructors = Instructor::orderBy('name')->get();
     $books = File::orderBy('book_number')->get();
 
-    return view('books.create_instructor', compact(
-        'instructors',
-        'books'
-    ));
-}
+    $query = Instructorbook::with(['instructor', 'file']);
 
-   public function b_list(){
-    $borrows = Borrow::all();
+    if ($search) {
+        $query->where(function ($q) use ($search) {
+            $q->whereHas('instructor', function ($sub) use ($search) {
+                $sub->where('name', 'like', "%{$search}%");
+            })
+            ->orWhereHas('file', function ($sub) use ($search) {
+                $sub->where('book_number', 'like', "%{$search}%");
+            });
+        });
+    }
+
+    $grouped = $query->latest()
+                    ->get()
+                    ->groupBy('instructor_id');
+
+    $page = request()->get('page', 1);
+    $perPage = 10;
+
+    $items = $grouped->slice(
+        ($page - 1) * $perPage,
+        $perPage
+    );
+
+    $assignments = new LengthAwarePaginator(
+        $items,
+        $grouped->count(),
+        $perPage,
+        $page,
+        [
+            'path' => request()->url(),
+            'query' => request()->query(),
+        ]
+    );
+
+    return view('books.instructorlist', compact(
+        'instructors',
+        'books',
+        'assignments'
+    ));
+    }
+    public function instructor()
+    {
+        $instructors = Instructor::orderBy('name')->get();
+
+        $books = File::orderBy('book_number')->get();
+        $recentUpload = Instructorbook::with('file')->latest()->first();
+
+        return view('books.create_instructor', compact(
+            'instructors',
+            'books',
+            'recentUpload'
+        ));
+    }
+    public function b_list()
+    {
+        $borrows = Borrow::orderBy('status', 'asc')
+                        ->orderBy('b_date', 'desc')
+                        ->get();
+
         return view('archive.b_list', compact('borrows'));
     }
     public function borrow(){
@@ -277,14 +287,52 @@ public function instructor()
         return view('accounts.resetadmin');
     }
 
-    public function adminDashboard(){
-        $recentUploads = File::latest()->take(6)->get();
+   public function adminDashboard()
+{
 
-        $totalUpload = File::where('status', 1)->count();
-        $totalPending = File::where('status', 0)->count();
+    $totalBorrowed = Borrow::count(); // adjust to your actual model/table for borrow records
 
-        return view('admin.dashboard',compact('totalUpload', 'totalPending', 'recentUploads' ));
-    }
+    $recentUploads = File::latest()->take(8)->get();
+
+    $totalUpload  = File::where('status', 1)->count();
+    $totalPending = File::where('status', 0)->count();
+
+    // Research by year
+   $researchByYear = File::where('status', 1)
+    ->selectRaw('`year`, COUNT(*) as total')
+    ->groupBy('year')
+    ->orderBy('year')
+    ->pluck('total', 'year');
+
+    // Department distribution — only BSAMT, BSEAT, and Others
+    $deptCounts = File::selectRaw('department, COUNT(*) as total')
+        ->groupBy('department')
+        ->pluck('total', 'department');
+    $deptTotal = $deptCounts->sum();
+    $targetDepts = ['BSAMT', 'BSAET'];
+    $deptDistribution = collect($targetDepts)
+        ->mapWithKeys(function ($dept) use ($deptCounts, $deptTotal) {
+            $count = $deptCounts->get($dept, 0);
+            $pct = $deptTotal > 0 ? round(($count / $deptTotal) * 100, 1) : 0;
+            return [$dept => $pct];
+        });
+    // Everything not in $targetDepts gets lumped into "Others"
+    $othersCount = $deptCounts
+        ->reject(fn($count, $dept) => in_array($dept, $targetDepts))
+        ->sum();
+    $deptDistribution['Others'] = $deptTotal > 0
+        ? round(($othersCount / $deptTotal) * 100, 1)
+        : 0;
+
+    return view('admin.dashboard', compact(
+        'totalUpload',
+        'totalPending',
+        'recentUploads',
+        'researchByYear',
+        'deptDistribution',
+        'totalBorrowed'
+    ));
+}
     public function register(){
         return view('admin.register');
     }

@@ -112,3 +112,5 @@
 
 
 </div>
+
+@include('partials.notif')

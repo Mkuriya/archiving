@@ -25,7 +25,7 @@
 </div>
 @endif
 
-<section class="max-w-5xl pt-6 px-6 mx-auto rounded-md shadow-md bg-gray-800 sm:mt-4 mt-0">
+<section class="max-w-5xl pt-6 px-6 mx-auto rounded-xl shadow-md bg-gray-800 sm:mt-4 mt-0 border border-gray-200">
 <h1 class="text-xl font-bold text-white capitalize ">Upload Research</h1>
 <form id="citation-form" name="citation-form" action="/admin/dashboard/upload/file" method="POST" enctype="multipart/form-data">
     @csrf
@@ -125,7 +125,8 @@ function toggleDepartmentInput() {
 
 
 
+@include('partials.notif')
 
-<script src="/js/uploadd.js"></script>
+<script src="/js/uploads.js"></script>
 <script src="/js/modal.js"></script>
 @extends('partials.footer')

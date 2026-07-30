@@ -1,16 +1,16 @@
 <?php
 
-use App\Http\Controllers\InstructorController;
-use App\Models\Admin;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\FileController;
-use App\Http\Controllers\ViewController;
-use App\Http\Controllers\OldView;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BorrowController;
-use App\Http\Controllers\StudentController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\PasswordController;
+use App\Http\Controllers\ViewController;
+use App\Models\Admin;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
 
+/* use App\Http\Controllers\OldView; */
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -21,8 +21,8 @@ use App\Http\Controllers\PasswordController;
 | contains the "web" middleware group. Now create something great!
 |
 */
-Route::get('/', function(){return view('/admin/login');}); //default display page
-Route::get('/backdoor', function(){return view('/register');});// for display when the authentication is functioning
+Route::get('/', function(){return view('admin.login');}); //default display page
+Route::get('/backdoor', function(){return view('register');});// for display when the authentication is functioning
 
 
 Route::controller(AdminController::class)->group(function(){
@@ -73,36 +73,39 @@ Route::controller(BorrowController::class)->group(function(){
 
 Route::controller(ViewController::class)->group(function(){
 
+    Route::get('/admin/login','adminLogin'); // to display the admin login
+    Route::get('/admin/dashboard/admin/register','register'); // to display the admin register
+
+
     Route::get('/admin/dashboard/thesis/upload', 'adminUpload')->name('admin.adminUpload')->middleware('auth:admin'); // for display the upload form
     Route::get('/admin/dashboard','adminDashboard')->name('admin.dashboard')->middleware('auth:admin'); //for display the admin dashboard
     Route::get('/admin/dashboard/admin/view/{admin}', 'adminView')->name('admin.adminview')->middleware('auth:admin'); // to display the admin details
     Route::get('/admin/dashboard/admin/profile/{admin}', 'adminprofileView')->name('admin.adminprofile')->middleware('auth:admin'); // to display the admin profile details
-    Route::get('/admin/login','adminLogin'); // to display the admin login
 
-    Route::get('/admin/dashboard/archive/pending', 'pending'); //for display the pending list in admin
+
+    Route::get('/admin/dashboard/archive/pending', 'pending')->middleware('auth:admin'); //for display the pending list in admin
     Route::get('/admin/dashboard/profile/{admin}','adminprofileView')->name('admin.adminprofile')->middleware('auth:admin'); // for display the profile
-    Route::get('/admin/dashboard/profile/changepassword/{admin}', 'adminPassword'); // for display the change adminpassword
+    Route::get('/admin/dashboard/profile/changepassword/{admin}', 'adminPassword')->middleware('auth:admin'); // for display the change adminpassword
     Route::get('/admin/dashboard/admin', 'adminList')->name('admin.admin')->middleware('auth:admin'); //to display the admin list
-    Route::get('/admin/dashboard/admin/register','register'); // to display the admin register
-    Route::get('/admin/dashboard/archive',  'adminArchiveList'); //for display the archive list/table
-    Route::get('/admin/dashboard/archive/decline', 'decline')->name('decline'); // display the decline list
-    Route::get('/admin/dashboard/search', 'fileSearch')->name('search'); //for display the search in student page
-    Route::get('/archive/search', 'fileSearch');
-    Route::get('/archive/search-result',  'searchFile');
-    Route::get('/archive/details/{id}',  'viewDetails');
-    Route::get('/admin/dashboard/archive/details/{id}',  'viewDetails');
+    Route::get('/admin/dashboard/archive',  'adminArchiveList')->middleware('auth:admin'); //for display the archive list/table
+    Route::get('/admin/dashboard/archive/decline', 'decline')->name('decline')->middleware('auth:admin'); // display the decline list
+    Route::get('/admin/dashboard/search', 'fileSearch')->name('search')->middleware('auth:admin'); //for display the search in student page
+    Route::get('/archive/search', 'fileSearch')->middleware('auth:admin');
+    Route::get('/archive/search-result',  'searchFile')->middleware('auth:admin');
+    Route::get('/archive/details/{id}',  'viewDetails')->middleware('auth:admin');
+    Route::get('/admin/dashboard/archive/details/{id}',  'viewDetails')->middleware('auth:admin');
     Route::get('/admin/dashboard/admin/edit/{admin}', 'adminEdit')->name('admin.adminedit')->middleware('auth:admin'); // for display the edit page
-    Route::get('/admin/dashboard/archive/print', 'print')->name('archive.print');
-    Route::get('/admin/dashboard/borrow', 'borrow')->name('archive.borrow');
-    Route::get('/get-book/{book_number}', 'getBook')->name('get.book');
-    Route::get('/admin/dashboard/borrow/list', 'b_list')->name('archive.b_list');
-    Route::get('/admin/dashboard/search/details/{id}', 'details')->name('archive.viewdetailss');
-    Route::get('/admin/dashboard/instructor', 'instructor')->name('instructor');
-    Route::get('/admin/dashboard/instructor/list', 'instructorlist')->name('instructorlist');
+    Route::get('/admin/dashboard/archive/print', 'print')->name('archive.print')->middleware('auth:admin');
+    Route::get('/admin/dashboard/borrow', 'borrow')->name('archive.borrow')->middleware('auth:admin');
+    Route::get('/get-book/{book_number}', 'getBook')->name('get.book')->middleware('auth:admin');
+    Route::get('/admin/dashboard/borrow/list', 'b_list')->name('archive.b_list')->middleware('auth:admin');
+    Route::get('/admin/dashboard/search/details/{id}', 'details')->name('archive.viewdetailss')->middleware('auth:admin');
+    Route::get('/admin/dashboard/instructor', 'instructor')->name('instructor')->middleware('auth:admin');
+    Route::get('/admin/dashboard/instructor/list', 'instructorlist')->name('instructorlist')->middleware('auth:admin');
 });
 
 Route::controller(InstructorController::class)->group(function(){
-
+Route::patch('/admin/dashboard/instructors/{instructor}','updateInstructor')->name('instructors.update');
     Route::post('/admin/dashboard/create_instructor', 'instructorRegister');
     Route::post('/admin/dashboard/assign_instructor', 'instructorAssign');
 

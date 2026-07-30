@@ -6,7 +6,7 @@
         <hr>
         <form action="/admin/dashboard/profile/edit/{{$admin->id}}" method="POST" enctype="multipart/form-data">
             @csrf
-            @method('PUT') 
+            @method('PUT')
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-4">
                 <div class="sm:col-span-1">
                     <label class="text-gray-200 pl-2" for="lastname">Last Name</label>
@@ -26,8 +26,8 @@
                     <label class="text-gray-200" for="email">Email</label>
                     <span class="ml-2 text-sm text-gray-400">(Cannot be edited)</span>
                     <input value="{{$admin->email}}" disabled name="email" id="password" type="email" class="block w-full px-4 py-2 mt-2  border  rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-white  ">
-                
-                </div> 
+
+                </div>
                 <div class="sm:col-span-1 col-span-1">
                     <label class="text-gray-200" for="gender">Gender</label>
                     <select name="gender"  @if($admin->id == 1) disabled @endif class="block w-full px-4 py-2 mt-2  border  rounded-md bg-gray-800 text-gray-300 border-gray-600 focus:border-white  ">
@@ -51,21 +51,21 @@
                 <div class="grid-row-2 col-span-10 mt-0 sm:mt-12">
                     <div>
                         <a href="/admin/dashboard/profile/changepassword/{{$admin->id}}">
-                            <button type="button" class="block w-full px-4 py-2 mt-2 text-white bg-gray-800 border border-gray-300 rounded-md hover:bg-whitebg hover:border-white">Change Password</button>
+                            <button type="button" class="block w-full px-4 py-2 mt-2 text-white bg-blue-900 rounded-md hover:bg-gray-700 hover:border-white">Change Password</button>
                         </a>
                     </div>
                     <div class="grid grid-cols-2 gap-6 mt-2 sm:mt-8">
                         <div class="col-span-1">
-                            <button type="submit" class="block w-full px-4 py-2 mt-2 text-white bg-whitebg border border-gray-300 rounded-md hover:bg-gray-600">Update</button>
+                            <button type="submit" class="block w-full px-4 py-2 mt-2 text-white bg-blue-900   rounded-md hover:bg-gray-700">Update</button>
                         </div>
                         <div class="col-span-1">
                             <a href="/admin/dashboard">
-                                <button type="button" class="block w-full px-4 py-2 mt-2 text-white bg-whitebg border border-gray-300 rounded-md hover:bg-gray-600">Back</button>
+                                <button type="button" class="block w-full px-4 py-2 mt-2 text-white bg-blue-900  rounded-md hover:bg-gray-700">Back</button>
                             </a>
                         </div>
                     </div>
-                </div>   
-            </div>   
+                </div>
+            </div>
         </form>
     </section>
 </div>

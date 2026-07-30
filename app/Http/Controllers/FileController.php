@@ -45,7 +45,7 @@ class FileController extends Controller
             'citation' => $request->citation,
         ]);
 
-        return back()->with('success', 'Abstract updated successfully.');
+        return back()->with('success', 'Details updated successfully.');
     }
 
     public function destroy($id)
@@ -54,7 +54,7 @@ class FileController extends Controller
 
         $item->delete();
 
-        return back()->with('success', 'Item deleted successfully.');
+        return back()->with('success', 'File deleted successfully.');
     }
     public function declinefileUpdate(File $file, Request $request) /* Function for pending update */
     {

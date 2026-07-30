@@ -1,236 +1,217 @@
 @include('partials.adminnav')
-<div class="min-h-screen  p-6 ">
+<link rel="stylesheet" href="/css/dashboard.css">
+<div class="wrap">
 
-    <!-- Header -->
-    <div class="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-4 mb-8">
-        <div>
-            <h1 class="text-3xl font-bold text-white">
-                NAAP Library Archive Dashboard
-            </h1>
-            <p class="text-white mt-2">
-                Welcome back, {{ auth()->guard('admin')->user()->firstname }}.
-            </p>
+  <div class="hero">
+    <div class="hero-left">
+      <h1>Good morning, {{ auth()->guard('admin')->user()->firstname }}! 👋</h1>
+      <div class="rule"></div>
+      <p>Manage research papers, archives and borrowing from one place.</p>
+    </div>
+    <div class="hero-mid">
+      <div class="contrail"></div>
+      <svg class="plane" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10 46 L120 40 L170 18 L182 20 L150 44 L196 46 L196 52 L150 52 L182 66 L170 68 L118 48 L34 52 L20 60 L8 58 L16 48 Z" fill="#ffffff" opacity="0.95"/>
+      </svg>
+    </div>
+    <div class="hero-quote">"Preserving knowledge today, inspiring tomorrow's aviation leaders."</div>
+  </div>
+
+  <div class="stats">
+    <div class="card stat">
+      <div class="stat-top">
+        <div class="stat-icon" style="background:#E9F0FE;color:var(--blue-700);"><svg class="icon" viewBox="0 0 24 24"><path d="M4 5h7a3 3 0 013 3v11a2 2 0 00-2-2H4z"/><path d="M20 5h-7a3 3 0 00-3 3v11a2 2 0 012-2h8z"/></svg></div>
+        <div><div class="stat-label">Research papers</div><div class="stat-value"> {{ $totalUpload }}</div></div>
+      </div>
+      <div class="stat-foot up"></div>
+    </div>
+    <div class="card stat">
+      <div class="stat-top">
+        <div class="stat-icon" style="background:var(--amber-bg);color:var(--amber);"><svg class="icon" viewBox="0 0 24 24"><path d="M6 3h12M6 21h12M7 3c0 6 5 7 5 9s-5 3-5 9M17 3c0 6-5 7-5 9s5 3 5 9"/></svg></div>
+        <div><div class="stat-label">Pending reviews</div><div class="stat-value"> {{ $totalPending }}</div></div>
+      </div>
+      <div class="stat-foot neutral"></div>
+    </div>
+    <div class="card stat">
+      <div class="stat-top">
+        <div class="stat-icon" style="background:var(--green-bg);color:var(--green);"><svg class="icon" viewBox="0 0 24 24"><path d="M4 19.5V6a2 2 0 012-2h13v15H6.5a2.5 2.5 0 000 5H19"/></svg></div>
+        <div><div class="stat-label">Borrowed books</div><div class="stat-value"> {{ $totalBorrowed }}</div></div>
+      </div>
+      <div class="stat-foot down"></div>
+    </div>
+    <div class="card stat link" onclick="printArchive()">
+      <div class="stat-top">
+        <div class="stat-icon" style="background:var(--purple-bg);color:var(--purple);"><svg class="icon" viewBox="0 0 24 24"><path d="M6 9V3h12v6M6 18h12v3H6z"/><rect x="6" y="9" width="12" height="9"/></svg></div>
+        <div><div class="stat-label">Print</div><div class="stat-value">Thesis list</div></div>
+      </div>
+      <div class="stat-foot">Go to print list →</div>
+    </div>
+  </div>
+ <div class="mt-2">
+      <div class="charts">
+        <div class="card chart-card c-green">
+          <h3>Research by year</h3>
+          <div class="chart-box"><canvas id="yearChart"></canvas></div>
         </div>
+        <div class="card chart-card c-purple">
+            <h3>Department distribution</h3>
+            <div class="chart-row">
+                <div class="chart-box"><canvas id="deptChart"></canvas></div>
+                <div class="legend">
+                <div class="legend-row"><span><span class="dot" style="background:#2E6FE0;"></span>BSAMT</span><span>{{ $deptDistribution['BSAMT'] ?? 0 }}%</span></div>
+                <div class="legend-row"><span><span class="dot" style="background:#1AA05B;"></span>BSEAT</span><span>{{ $deptDistribution['BSAET'] ?? 0 }}%</span></div>
+                <div class="legend-row"><span><span class="dot" style="background:#9AA4B2;"></span>Others</span><span>{{ $deptDistribution['Others'] ?? 0 }}%</span></div>
+                </div>
+            </div>
+            </div>
+      </div>
+  </div>
+  <div class="layout">
+    <div class="left-col">
+      <div class="card">
+        <div class="panel-head">
+          <h2>Recent uploads</h2>
+          <a href="/admin/dashboard/archive/pending" class="btn-mini">View all</a>
+        </div>
+        <table>
+          <thead>
+            <tr><th>Book number</th><th>Title</th><th>Dept.</th><th>Instructor</th><th>Year</th></tr>
+          </thead>
+          <tbody>
+            @forelse($recentUploads as $upload)
+                <tr>
+                <td class="bnum">{{ $upload->book_number }}</td>
+                <td class="row-title">   {{ $upload->title }}&hellip;</td>
+                <td><div class="dept-cell">{{ $upload->department }}</div></td>
+                <td class="row-title"> {{ $upload->adviser }}</td>
+                <td class="date"> {{ $upload->year }}</td>
+                </tr>
+            @empty
+                <tr>
+                    <td class="row-title">No recent uploads.</td>
+                </tr>
+             @endforelse
+          </tbody>
+        </table>
+      </div>
     </div>
 
-    <!-- Statistics -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-            <!-- Total Research -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-xl transition">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-2xl">
-                        📚
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500 font-medium">
-                            Research Papers
-                        </p>
-                        <h2 class="text-xl font-bold text-gray-800 mt-1">
-                            {{ $totalUpload }}
-                        </h2>
-                    </div>
-                </div>
-                <p class="text-sm text-gray-600 mt-5">
-                    ↑ Total uploaded
-                </p>
-            </div>
-            <!-- Pending -->
-            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 hover:shadow-xl transition">
-                <div class="flex items-center gap-3">
-                    <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-2xl">
-                        ⏳
-                    </div>
-                    <div>
-                        <p class="text-sm text-gray-500 font-medium">
-                            Pending Reviews
-                        </p>
-                        <h2 class="text-xl font-bold text-gray-800 mt-1">
-                             {{ $totalPending }}
-                        </h2>
-                    </div>
-                </div>
-                <p class="text-sm text-gray-600 mt-5">
-                    Waiting approval
-                </p>
-            </div>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-
-                <!-- Card 1 -->
-                <div class="bg-white rounded-2xl shadow-sm border p-6 cursor-pointer hover:shadow-md transition" onclick="printArchive()">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center text-2xl">
-                            🖨
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500 font-medium">
-                                Print
-                            </p>
-                            <h2 class="text-xl font-bold text-gray-800 mt-1">
-                                Thesis List
-                            </h2>
-                        </div>
-                    </div>
-                    <p class="text-sm text-gray-500 mt-4">
-                        Click to Print All List of Thesis.
-                    </p>
-                </div>
-                <!-- Card 2 -->
-                <div class="bg-white rounded-2xl shadow-sm border p-6">
-                    <div class="flex items-center gap-3">
-                        <div class="w-12 h-12 bg-yellow-100 rounded-xl flex items-center justify-center text-2xl">
-                            🚧
-                        </div>
-                        <div>
-                            <p class="text-sm text-gray-500 font-medium">
-                                Borrow Book
-                            </p>
-                            <h2 class="text-xl font-bold text-gray-800 mt-1">
-                                00001
-                            </h2>
-                        </div>
-                    </div>
-                    <p class="text-sm text-gray-500 mt-4">
-                        This feature is temporarily unavailable.
-                    </p>
-                </div>
-            </div>
+    <div class="right-col">
+      <div class="card">
+        <div class="panel-head mt-2 "><h2>Quick actions</h2></div>
+        <div class="actionlist">
+          <a class="act a-blue" href="/admin/dashboard/thesis/upload">
+            <div class="glyph"><svg class="icon" viewBox="0 0 24 24" style="stroke:#fff;"><path d="M12 19V5M5 12l7-7 7 7"/></svg></div>
+            <div><div class="t">Upload research</div><div class="s">Add a new research paper</div></div>
+            <span class="chev">›</span>
+          </a>
+          <a class="act a-green" href="/admin/dashboard/archive">
+            <div class="glyph"><svg class="icon" viewBox="0 0 24 24" style="stroke:#fff;"><path d="M3 7h6l2 2h10v10H3z"/></svg></div>
+            <div><div class="t">Browse archive</div><div class="s">View archived research papers</div></div>
+            <span class="chev">›</span>
+          </a>
+          <a class="act a-amber" href="/admin/dashboard/borrow">
+            <div class="glyph"><svg class="icon" viewBox="0 0 24 24" style="stroke:#fff;"><path d="M4 19.5V6a2 2 0 012-2h13v15H6.5a2.5 2.5 0 000 5H19"/></svg></div>
+            <div><div class="t">Borrow books</div><div class="s">Manage borrow requests</div></div>
+            <span class="chev">›</span>
+          </a>
+          <a class="act a-purple" href="/admin/dashboard/search">
+            <div class="glyph"><svg class="icon" viewBox="0 0 24 24" style="stroke:#fff;"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
+            <div><div class="t">Search research</div><div class="s">Search archived research</div></div>
+            <span class="chev">›</span>
+          </a>
+            <a class="act a-slate" href="/admin/dashboard/instructor">
+            <div class="glyph"><svg class="icon" viewBox="0 0 24 24" style="stroke:#fff;"><circle cx="12" cy="8" r="3"/><path d="M5 20c0-4 3-6 7-6s7 2 7 6"/></svg></div>
+            <div><div class="t">Instructor directory</div><div class="s">Search instructors</div></div>
+            <span class="chev">›</span>
+            </a>
+            <a class="act a-teal" href="/admin/dashboard/instructor/list">
+            <div class="glyph"><svg class="icon" viewBox="0 0 24 24" style="stroke:#fff;"><rect x="4" y="5" width="16" height="3" rx="1"/><rect x="4" y="11" width="16" height="3" rx="1"/><rect x="4" y="17" width="16" height="3" rx="1"/></svg></div>
+            <div><div class="t">Instructor list</div><div class="s">View all instructors</div></div>
+            <span class="chev">›</span>
+            </a>
         </div>
-    <!-- Main Grid -->
-
-    <div class="grid lg:grid-cols-3 gap-6 mt-8">
-
-        <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden">
-
-            <!-- Header -->
-            <div class="flex justify-between items-center px-6 py-4 border-b bg-gray-50">
-                <h2 class="font-semibold text-lg text-gray-800">
-                    Recent Uploads
-                </h2>
-
-                <a href="/admin/dashboard/archive/pending"
-                class="text-sm text-blue-600 hover:underline">
-                    View All
-                </a>
-            </div>
-
-            <!-- Table -->
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm">
-
-                    <thead class="text-left text-gray-500 border-b bg-white">
-                        <tr>
-                            <th class="px-6 py-3 w-16 text-center">Book Number</th>
-                            <th class="px-6 py-3">Title</th>
-                            <th class="px-6 py-3 text-right w-32">Year</th>
-                        </tr>
-                    </thead>
-
-                    <tbody class="divide-y">
-
-                        @forelse($recentUploads as $upload)
-                            <tr class="hover:bg-gray-50">
-
-                                <!-- Book Number -->
-                                <td class="px-6 py-4 font-medium text-gray-700 text-center whitespace-nowrap">
-                                    {{ $upload->book_number }}
-                                </td>
-
-                                <!-- Title + Author -->
-                                <td class="px-6 py-4">
-                                    <div class="font-medium text-gray-800">
-                                        {{ $upload->title }}
-                                    </div>
-                                    <div class="text-gray-500 text-xs">
-                                        {{ $upload->author }}
-                                    </div>
-                                </td>
-
-                                <!-- Date -->
-                                <td class="px-6 py-4 text-right text-gray-400 whitespace-nowrap">
-                                    {{ $upload->year }}
-                                </td>
-
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="3" class="px-6 py-6 text-center text-gray-500">
-                                    No recent uploads.
-                                </td>
-                            </tr>
-                        @endforelse
-
-                    </tbody>
-
-                </table>
-            </div>
-        </div>
-        <!-- Quick Actions -->
-        <div class="bg-white rounded-2xl shadow p-6">
-            <h2 class="font-bold text-xl mb-5">
-                Quick Actions
-            </h2>
-            <div class="space-y-4">
-                <a href="/admin/dashboard/thesis/upload"class="flex items-center justify-between bg-blue-50 p-4 rounded-xl hover:bg-blue-100">
-                    <div>
-                        <h3 class="font-semibold">
-                            Upload Research
-                        </h3>
-                        <p class="text-sm text-gray-500">
-                            Add a new research paper
-                        </p>
-                    </div>
-                    📤
-                </a>
-
-                <a href="/admin/dashboard/archive" class="flex items-center justify-between bg-green-50 p-4 rounded-xl hover:bg-green-100">
-                    <div>
-                        <h3 class="font-semibold">
-                            Archive
-                        </h3>
-                        <p class="text-sm text-gray-500">
-                            Browse archived papers
-                        </p>
-                    </div>
-                    📁
-                </a>
-                <a href="/admin/dashboard/borrow" class="flex items-center justify-between bg-yellow-50 p-4 rounded-xl hover:bg-yellow-100">
-                    <div>
-                        <h3 class="font-semibold">
-                            Borrow Books
-                        </h3>
-                        <p class="text-sm text-gray-500">
-                            Manage books
-                        </p>
-                    </div>
-                    👨‍🎓
-                </a>
-                <a href="/admin/dashboard/search" class="flex items-center justify-between bg-purple-50 p-4 rounded-xl hover:bg-purple-100">
-                    <div>
-                        <h3 class="font-semibold">
-                            Search
-                        </h3>
-                        <p class="text-sm text-gray-500">
-                            Search archived research
-                        </p>
-                    </div>
-                    🔍
-                </a>
-                <a href="/admin/dashboard/instructor" class="flex items-center justify-between bg-purple-50 p-4 rounded-xl hover:bg-purple-100">
-                    <div>
-                        <h3 class="font-semibold">
-                            Instructor
-                        </h3>
-                        <p class="text-sm text-gray-500">
-                            Search archived research
-                        </p>
-                    </div>
-                    🔍
-                </a>
-
-
-            </div>
-        </div>
+      </div>
     </div>
+  </div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+const yearData     = @json($researchByYear);
+const deptData     = @json($deptDistribution);
+// --- Dynamic "nice" step size calculator ---
+// Picks a clean step (1, 2, 5, 10, 20, 50, 100...) so the y-axis always
+// shows a readable number of gridlines no matter how big the data gets.
+function getNiceStep(maxValue, targetTicks = 5) {
+    if (!maxValue || maxValue <= 0) return 10;
+    const roughStep = maxValue / targetTicks;
+    const magnitude = Math.pow(10, Math.floor(Math.log10(roughStep)));
+    const residual = roughStep / magnitude;
+    let niceFactor;
+    if (residual > 5) niceFactor = 10;
+    else if (residual > 2) niceFactor = 5;
+    else if (residual > 1) niceFactor = 2;
+    else niceFactor = 1;
+    return niceFactor * magnitude;
+}
 
+const yearValues  = Object.values(yearData);
+const yearMax     = Math.max(...yearValues, 0);
+const yearStep    = getNiceStep(yearMax, 5);
+new Chart(document.getElementById('yearChart'), {
+    type: 'bar',
+    data: {
+        labels: Object.keys(yearData),
+        datasets: [{
+            data: yearValues,
+            backgroundColor: '#1AA05B'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+
+        plugins: {
+            legend: {
+                display: false
+            }
+        },
+
+        scales: {
+            y: {
+                beginAtZero: true,
+                suggestedMax: Math.ceil(
+                    (yearMax + yearStep * 0.2) / yearStep
+                ) * yearStep,
+                ticks: {
+                    stepSize: yearStep,
+                    autoSkip: false
+                }
+            },
+            x: {
+                ticks: {
+                    autoSkip: false,
+                    maxRotation: 90,
+                    minRotation: 45,
+                    font: {
+                        size: 10
+                    }
+                }
+            }
+        }
+    }
+});
+
+new Chart(document.getElementById('deptChart'), {
+    type: 'doughnut',
+    data: {
+        labels: Object.keys(deptData),
+        datasets: [{
+            data: Object.values(deptData),
+            backgroundColor: ['#2E6FE0', '#1AA05B', '#9AA4B2'] // only 3 colors now
+        }]
+    },
+    options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } } }
+});
+</script>
 @extends('partials.footer')

@@ -25,69 +25,85 @@
             </div>
         </div>
     @endif
-<section class="max-w-5xl pt-6 px-6 mx-auto rounded-md shadow-md sm:mt-4 mt-0">
+<section class="max-w-5xl pt-6 px-6 mx-auto rounded-md shadow-md sm:mt-4 mt-0 text-white">
 
 
     <form id="borrow-form" action="/admin/dashboard/borrow/input" method="POST">
         @csrf
-        <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-xl p-8">
-            <h1 class="text-2xl font-bold text-black mb-6 border-b border-gray-700 pb-3">
-                📚 Borrow Research Book
-            </h1>
+        <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl shadow-xl p-8">
+           <div class="flex items-center justify-between mb-6 border-b border-gray-700 pb-3">
+                <h1 class="text-2xl font-bold text-white">
+                    📚 Borrow Research Book
+                </h1>
+
+                <a href="/admin/dashboard/borrow/list"
+                    class="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="8" y1="6" x2="21" y2="6"></line>
+                        <line x1="8" y1="12" x2="21" y2="12"></line>
+                        <line x1="8" y1="18" x2="21" y2="18"></line>
+                        <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                        <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                        <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                    </svg>
+                    View List
+                </a>
+            </div>
             <input hidden type="text" name="status" class="border border-gray-600" value="0">
 
             <!-- Borrow Information -->
             <div class="grid md:grid-cols-2 gap-6 mt-4">
                 <!-- Borrow Date -->
                 <div>
-                    <label class="block text-sm font-medium mb-2">
+                    <label class="block text-sm text-white font-medium mb-2">
                         Borrow Date
                     </label>
                    <input type="datetime-local" name="b_date" value="{{ old('b_date', now()->format('Y-m-d\TH:i')) }}"
-                    class="w-full px-4 py-3 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    class="w-full px-4 py-3 rounded-lg border bg-gray-800  border-gray-600 focus:border-white focus:outline-none">
                 </div>
 
                 <!-- Book Number -->
                 <div>
-                    <label class="block text-sm font-medium mb-2">
+                    <label class="block text-sm text-white font-medium mb-2">
                         Book Number
                     </label>
 
-                    <input type="number" id="book_number" name="b_no" placeholder="Enter Book Number" class="w-full px-4 py-3 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                    <input type="number" id="book_number" name="b_no" placeholder="Enter Book Number" class="w-full px-4 py-3 rounded-lg border bg-gray-800  border-gray-600 focus:border-white focus:outline-none">
                 </div>
             </div>
 
             <!-- Book Title -->
             <div class="mt-6">
-                <label class="block text-sm font-medium mb-2">
+                <label class="block text-sm text-white font-medium mb-2">
                     Research Title
                 </label>
-                <textarea id="title" name="b_name" rows="3" readonly placeholder="Book title will appear here..." class="w-full px-4 py-3 rounded-lg border border-gray-600 resize-none focus:outline-none"></textarea>
+                <textarea id="title" name="b_name" rows="3" readonly placeholder="Book title will appear here..." class="w-full px-4 py-3 rounded-lg border bg-gray-800  border-gray-600 focus:border-white resize-none focus:outline-none"></textarea>
             </div>
 
             <!-- Student Information -->
             <div class="mt-6">
-                <label class="block text-sm font-medium mb-2">
+                <label class="block text-sm text-white font-medium mb-2">
                     Student Name
                 </label>
-                <input type="text" name="s_name" placeholder="Enter Student Name" class="w-full px-4 py-3 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <input type="text" name="s_name" placeholder="Enter Student Name" class="w-full px-4 py-3 rounded-lg border bg-gray-800  border-gray-600 focus:border-white focus:outline-none">
             </div>
 
             <!-- Return Date -->
             <div class="mt-6">
-                <label class="block text-sm font-medium mb-2">
+                <label class="block text-sm text-white font-medium mb-2">
                     Expected Return Date
                 </label>
-                <input type="datetime-local" name="r_date" class="w-full px-4 py-3 rounded-lg border border-gray-600 focus:ring-2 focus:ring-blue-500 focus:outline-none">
+                <input type="datetime-local" name="r_date" class="w-full px-4 py-3 rounded-lg border bg-gray-800 text-gray-300 border-gray-600 focus:border-white focus:outline-none">
             </div>
             <!-- Buttons -->
             <div class="flex justify-end gap-4 mt-6">
 
-                <a href="/admin/dashboard" class="px-4 py-3 bg-gray-600 hover:bg-gray-700 text-white rounded-lg transition">
+                <a href="/admin/dashboard" class="px-4 py-3 bg-danger hover:bg-gray-700 text-white rounded-lg transition">
                     Cancel
                 </a>
 
-                <button type="submit" class="px-4 py-3 bg-blue-700 hover:bg-blue-800 text-white rounded-lg transition shadow-lg">
+                <button type="submit" class="px-4 py-3 bg-blue-900 hover:bg-gray-700 text-white rounded-lg transition shadow-lg">
                     Save Borrow Record
                 </button>
             </div>
