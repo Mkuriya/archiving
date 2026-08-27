@@ -49,11 +49,11 @@
                     Year
                 </th>
 
-                <th class="w-[15%] border border-black px-2 py-2 text-center font-bold">
+                <th class="w-[8%] border border-black px-2 py-2 text-center font-bold">
                     Department
                 </th>
 
-                <th class="w-[23%] border border-black px-2 py-2 text-center font-bold">
+                <th class="w-[30%] border border-black px-2 py-2 text-center font-bold">
                     Members
                 </th>
 
@@ -89,6 +89,11 @@
 
                     <td class="border border-black px-2 py-2">
                         {{ $item->adviser }}
+                        @if (empty(trim($item->adviser ?? '')))
+                            <span class="ml-2 text-red-600 text-xs font-semibold">
+                                Missing Hardcopy
+                            </span>
+                        @endif
                     </td>
 
                 </tr>

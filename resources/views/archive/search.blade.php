@@ -136,7 +136,7 @@
                             TITLE:  ${highlight(String(file.title), search)}
                         </h2>
                         ${
-                            file.adviser == null
+                            file.adviser == null || !file.adviser
                             ? `<span class="ml-2 text-red-600 text-xs font-semibold">
                                     ⚠ Missing Hardcopy
                             </span>`

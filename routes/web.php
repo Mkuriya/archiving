@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BorrowController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\InstructorController;
+use App\Http\Controllers\LogBookController;
 use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\ViewController;
 use App\Models\Admin;
@@ -64,6 +65,11 @@ Route::controller(FileController::class)->group(function(){
 });
 
 
+
+Route::controller(LogBookController::class)->group(function(){
+    Route::post('/admin/dashboard/logbook/input', 'createlogbook')->name('createlogbook');
+});
+
 Route::controller(BorrowController::class)->group(function(){
 
     Route::delete('/items/{id}', 'destroy')->name('items.destroy');
@@ -102,6 +108,11 @@ Route::controller(ViewController::class)->group(function(){
     Route::get('/admin/dashboard/search/details/{id}', 'details')->name('archive.viewdetailss')->middleware('auth:admin');
     Route::get('/admin/dashboard/instructor', 'instructor')->name('instructor')->middleware('auth:admin');
     Route::get('/admin/dashboard/instructor/list', 'instructorlist')->name('instructorlist')->middleware('auth:admin');
+    Route::get('/admin/dashboard/calendar', 'schedule')->name('schedule')->middleware('auth:admin');
+    Route::get('/admin/dashboard/logbook/list', 'logbooklist')->middleware('auth:admin');
+    Route::get('/admin/dashboard/logbook', 'logbook')->middleware('auth:admin');
+    Route::get('/create/logbook', 'createlogbook');
+    Route::get('/admin/dashboard/print', 'print_book')->name('book.print_book')->middleware('auth:admin');
 });
 
 Route::controller(InstructorController::class)->group(function(){

@@ -169,7 +169,8 @@
                             <select
                                 id="instructor_id"
                                 name="instructor_id"
-                                class="w-full text-sm bg-gray-800">
+                               class="w-full px-4 py-3 rounded-xl border bg-gray-800 text-white
+                                   border-gray-600 focus:border-white outline-none transition">
 
                                 <option value="">Select Instructor</option>
 
@@ -187,7 +188,8 @@
                                 Book
                             </label>
 
-                            <select id="file_id" name="file_id" class="w-full">
+                            <select id="file_id" name="file_id" class="w-full px-4 py-3 rounded-xl border bg-gray-800 text-white
+                                   border-gray-600 focus:border-white outline-none transition">
 
                                 <option value="">Select Book</option>
 
@@ -206,12 +208,12 @@
                     <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
                     <script>
                         new TomSelect('#instructor_id', {
-                            create: false,
+                            create: false, maxOptions: null,
                             placeholder: 'Type instructor name...'
                         });
 
                         new TomSelect('#file_id', {
-                            create: false,
+                            create: false, maxOptions: null,
                             placeholder: 'Type book number or title...'
                         });
                     </script>

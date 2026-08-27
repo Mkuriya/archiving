@@ -1,5 +1,5 @@
 @include('partials.adminnav')
-<section class="max-w-5xl pt-6 px-6 mx-auto rounded-md shadow-md     sm:mt-4 mt-0">
+<section class="max-w-5xl pt-6 px-6 mx-auto rounded-md shadow-md bg-gray-800 sm:mt-4 mt-0">
     <h1 class="text-xl font-bold text-white capitalize ">Research Details</h1>
 
     <div class="mt-4">

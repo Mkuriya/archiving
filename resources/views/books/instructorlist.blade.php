@@ -60,12 +60,17 @@
                     </div>
                 </div>
             </form>
-
-            <!-- Right: Add New button -->
-            <a href="/admin/dashboard/instructor"
-                class="px-5 py-2 bg-blue-900 hover:bg-gray-700 text-white rounded-lg transition text-center whitespace-nowrap justify-self-end">
-                + Add New
-            </a>
+            <div class="justify-self-end">
+                <!-- Right: Add New button -->
+                <a href="/admin/dashboard/instructor"
+                    class="px-5 py-2 bg-blue-900 hover:bg-gray-700 text-white rounded-lg transition text-center whitespace-nowrap justify-self-end">
+                    + Add New
+                </a>
+                <button onclick="printBook()"
+                    class="ml-4 px-5 py-2 bg-blue-900 hover:bg-gray-700 text-white rounded-lg transition text-center whitespace-nowrap justify-self-end">
+                    🖨 Print
+                </button>
+            </div>
         </div>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-3">
@@ -77,6 +82,12 @@
                 $bookNumbers = $instructorAssignments
                     ->pluck('file.book_number')
                     ->implode(' _ ');
+                $bookDetails = $instructorAssignments
+                    ->map(fn($a) => [
+                        'number' => $a->file->book_number,
+                        'title'  => $a->file->title,
+                    ])
+                    ->values();
             @endphp
 
             <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:scale-105 transition duration-300 border relative">
@@ -105,7 +116,7 @@
             <button type="button" class="modal-open px-5 py-2 bg-yellow-400 text-black rounded-lg hover:bg-yellow-500 transition"
                 data-id="{{ $first->instructor->id }}"
                 data-instructor="{{ $first->instructor->name }}"
-                data-books="{{ $instructorAssignments->pluck('file.book_number')->implode(' _ ') }}">
+                data-books='{{ $bookDetails->toJson() }}'>
                 View Details
             </button>
         </div>
@@ -162,7 +173,7 @@
 
  <div class="modal opacity-0 pointer-events-none fixed w-full h-full top-0 left-0 flex items-center justify-center">
         <div class="modal-overlay absolute w-full h-full bg-gray-900 opacity-50"></div>
-        <div class="modal-container bg-gray-800  text-white w-10/12 md:max-w-4xl mx-auto rounded shadow-lg z-50 overflow-y-auto">
+        <div class="modal-container bg-gray-800  text-white w-10/12 md:max-w-4xl mx-auto rounded shadow-lg z-50">
             <div class="modal-content bg-white rounded shadow-xl max-w-4xl w-full">
     <!-- Header --> <div class="bg-gray-800 px-6 py-4 border-b">
                          <div class="flex items-center justify-between">
@@ -190,13 +201,38 @@
                             class="block w-full px-4 py-2 mt-2 border border-black rounded-md text-black"
                             readonly>
 
-                        <label class="mt-4 block">Book Numbers</label>
-                        <textarea
-                            id="modal-books"
-                            rows="4"
-                            class="block w-full px-4 py-2 mt-2 border border-black rounded-md"
-                            readonly></textarea><br>
-
+                        <label class="mt-4 block">Assigned Books</label>
+                        <div class="mt-2 border border-black rounded-md">
+                            <table class="w-full text-sm text-left table-fixed">
+                                <colgroup>
+                                    <col class="w-1/3">
+                                    <col>
+                                </colgroup>
+                                <thead class="bg-gray-800 text-white">
+                                    <tr>
+                                        <th class="px-4 py-2">Book Number</th>
+                                        <th class="px-4 py-2">Title</th>
+                                    </tr>
+                                </thead>
+                            </table>
+                            <div style="max-height: 22rem; overflow-y: auto;">
+                                <table class="w-full text-sm text-left table-fixed">
+                                    <colgroup>
+                                        <col style="width:6rem;">
+                                        <col>
+                                    </colgroup>
+                                    <tbody id="modal-books-body" class="bg-white divide-y divide-gray-200">
+                                        <!-- rows injected by JS -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>  <style>
+                            #modal-books-body tr:hover {
+                                background-color: #1f2937; /* gray-800 */
+                                color: #ffffff;
+                            }
+                        </style>
+                        <br>
 
                     </form>
                 </div>
@@ -216,13 +252,35 @@
             button.addEventListener('click', function () {
 
                 const instructor = this.getAttribute('data-instructor');
-                const books = this.getAttribute('data-books');
-
-                console.log(instructor);
-                console.log(books);
+                const booksJson = this.getAttribute('data-books');
 
                 document.getElementById('modal-instructor').value = instructor;
-                document.getElementById('modal-books').value = books;
+
+                const tbody = document.getElementById('modal-books-body');
+                tbody.innerHTML = '';
+
+                let books = [];
+                try {
+                    books = JSON.parse(booksJson) || [];
+                } catch (e) {
+                    console.error('Invalid book data', e);
+                }
+
+                books.forEach(function (book) {
+                    const row = document.createElement('tr');
+
+                    const numberCell = document.createElement('td');
+                    numberCell.className = 'px-4 py-2 font-medium text-center';
+                    numberCell.textContent = book.number ?? '';
+
+                    const titleCell = document.createElement('td');
+                    titleCell.className = 'px-4 py-2';
+                    titleCell.textContent = book.title ?? '';
+
+                    row.appendChild(numberCell);
+                    row.appendChild(titleCell);
+                    tbody.appendChild(row);
+                });
 
                 modal.classList.remove('opacity-0');
                 modal.classList.remove('pointer-events-none');

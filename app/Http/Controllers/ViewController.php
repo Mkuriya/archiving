@@ -8,6 +8,7 @@ use App\Models\File;
 use App\Models\History;
 use App\Models\Instructor;
 use App\Models\Instructorbook;
+use App\Models\logbook;
 use App\Models\Student;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
@@ -17,6 +18,22 @@ use Illuminate\Support\Facades\Storage;
 
 class ViewController extends Controller
 {
+    public function createlogbook(){
+        return view('create_logbook');
+    }
+    public function logbook(){
+        return view('books.logbook');
+    }
+    public function logbooklist(){
+    $list = logbook::orderBy('s_name', 'asc')
+                        ->orderBy('date', 'desc')
+                        ->get();
+        return view('books.logbooklist', compact('list'));
+    }
+    public function schedule(){
+
+    return view('books.schedule');
+    }
 
 
    public function instructorlist(Request $request)
@@ -107,6 +124,15 @@ class ViewController extends Controller
         ]);
     }
 
+   public function print_book()
+{
+    $assignments = Instructorbook::with(['instructor', 'file'])
+        ->get()
+        ->groupBy('instructor_id')
+        ->sortBy(fn ($group) => $group->first()->instructor->name);
+
+    return view('books.print_book', compact('assignments'));
+}
     public function print(){
         $files = File::where('status', 1)
                     ->orderBy('book_number', 'asc')
@@ -234,8 +260,15 @@ class ViewController extends Controller
                 $q->where('title', 'LIKE', "%{$search}%")
                 ->orwhere('book_number', 'LIKE', "%{$search}%")
                 ->orWhere('year', 'LIKE', "%{$search}%")
+                ->orWhere('department', 'LIKE', "%{$search}%")
                 ->orWhere('adviser', 'LIKE', "%{$search}%");
+
+                if (str_contains(strtolower($search), 'missing')) {
+                    $q->orWhereNull('adviser')
+                    ->orWhere('adviser', '');
+                }
             });
+
         }
 
         if ($request->input('status') == 0) {
