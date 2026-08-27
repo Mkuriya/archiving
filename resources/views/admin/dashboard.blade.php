@@ -125,9 +125,13 @@
             <div><div class="t">Instructor directory</div><div class="s">Search instructors</div></div>
             <span class="chev">›</span>
             </a>
-            <a class="act a-teal" href="/admin/dashboard/instructor/list">
-            <div class="glyph"><svg class="icon" viewBox="0 0 24 24" style="stroke:#fff;"><rect x="4" y="5" width="16" height="3" rx="1"/><rect x="4" y="11" width="16" height="3" rx="1"/><rect x="4" y="17" width="16" height="3" rx="1"/></svg></div>
-            <div><div class="t">Instructor list</div><div class="s">View all instructors</div></div>
+            <a class="act a-teal" href="/admin/dashboard/calendar">
+            <div class="glyph">
+                <svg class="icon" viewBox="0 0 24 24" fill="none" style="stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"> <rect x="3" y="4" width="18" height="17" rx="2"></rect>
+                    <line x1="8" y1="2" x2="8" y2="6"></line> <line x1="16" y1="2" x2="16" y2="6"></line> <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+            </div>
+            <div><div class="t">Calendar</div><div class="s">View all Schedule</div></div>
             <span class="chev">›</span>
             </a>
         </div>
@@ -135,6 +139,11 @@
     </div>
   </div>
 </div>
+
+
+
+
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
 const yearData     = @json($researchByYear);

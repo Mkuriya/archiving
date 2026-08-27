@@ -16,29 +16,32 @@
             </ul>
         </div>
         <div class="text-white w-full h-12 sm:w-2/6 ">
-            <form action="{{ url('/admin/dashboard/archive/decline') }}" id="searchForm" method="get" class=" w-full mx-auto h-full">
-                <div class="flex flex-row mt-2 sm:mt-0 md:flex-row items-center h-full">
-                    <div class="relative h-full  ">
-                       <div class="relative w-full h-full md:w-36 "  x-data="{ open: false, selected: '{{ request('department') ?: 'Department' }}' }">
-                            <button type="button"  @click="open = !open" class="text-black hover:text-white w-full bg-white  hover:bg-gray-800 font-medium text-sm px-2 py-2 h-full  flex justify-between items-center">
-                                <span x-text="selected"></span>
-                                <span>▼</span>
+            <form action="{{ url('/admin/dashboard/archive/decline') }}" id="searchForm" method="GET" action="" class="w-full flex justify-center">
+                <div class="relative w-full sm:w-72 lg:w-80">
+                    <!-- Left search icon (decorative) -->
+                    <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 pointer-events-none">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M21 21l-4.35-4.35M17 10.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"/>
+                        </svg>
+                    </span>
+                    <input type="text" name="search" value="{{ request('search') }}" autocomplete="off" placeholder="Search research details" class="w-full pl-10 pr-20 py-3 rounded-lg bg-white border border-gray-300 text-gray-800 placeholder-gray-400 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition">
+                    <!-- Right-side buttons: clear (if searching) + submit -->
+                    <div class="absolute inset-y-0 right-0 flex items-center pr-2 gap-1">
+                        @if(request('search'))
+                            <button type="button" onclick="window.location.href='{{ url()->current() }}'" class="flex items-center justify-center w-8 h-8 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md transition" title="Clear search">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                                </svg>
                             </button>
-                            <div x-show="open" @click.away="open=false" class="absolute z-50 w-full mt-1 bg-white shadow-lg dropdown-list " >
-                                <div class="px-3 py-2 h-full text-black hover:bg-gray-800 hover:text-white cursor-pointer"  @click="selected='Department'; open=false; $refs.department.value=''" >
-                                    Department
-                                </div>
-                                @foreach($departments as $department)
-                                    <div class="px-3 py-2 text-black hover:bg-gray-800 hover:text-white cursor-pointer" @click="selected='{{ $department->department }}'; open=false; $refs.department.value='{{ $department->department }}'" >
-                                        {{ $department->department }}
-                                    </div>
-                                @endforeach
-                            </div>
-                            <input type="hidden" name="department" x-ref="department" value="{{ request('department') }}" >
-                        </div>
+                        @endif
+                        <button type="submit" class="flex items-center justify-center w-8 h-8 text-white bg-blue-700 hover:bg-blue-800 active:bg-blue-900 rounded-md shadow-sm transition" title="Search">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M21 21l-4.35-4.35M17 10.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"/>
+                            </svg>
+                        </button>
                     </div>
-                    <input type="search" id="default-search" value="{{ request()->input('search') }}" name="search" class="w-full p-4 text-sm text-black hover:text-white  bg-white hover:bg-gray-800 focus:outline-none md:py-0 h-full md:border-b-2 md:border-t-2 border-y-2  " placeholder="Search Title, Year or Book Number" />
-                    <button type="submit" class="text-black hover:text-white  bg-white hover:bg-gray-800 hover:text-white font-medium text-sm px-4 py-4 md:py-0 h-full rounded-lg-g md:rounded-r-lg">Search</button>
                 </div>
             </form>
         </div>
@@ -118,11 +121,8 @@
                                                         <form action="/admin/dashboard/archive/decline/status/{{$item->id}}" method="POST">
                                                             @csrf
                                                             @method('PUT')
-
                                                             <div class="p-6 bg-gray-50 text-black">
-
                                                                 <div class="space-y-4">
-
                                                                     <!-- Title -->
                                                                     <div>
                                                                         <label class="block text-sm font-semibold text-black mb-1">
@@ -130,7 +130,6 @@
                                                                         </label>
                                                                         <input name="title" value="{{$item->title}}" disabled type="text" class="w-full border border-black rounded px-3 py-2 bg-white">
                                                                     </div>
-
                                                                     <!-- Department -->
                                                                     <div>
                                                                         <label class="block text-sm font-semibold text-black mb-1">
@@ -138,9 +137,7 @@
                                                                         </label>
                                                                         <input name="department" value="{{$item->department}}" disabled type="text" class="w-full border border-gray-300 rounded px-3 py-2 bg-white">
                                                                     </div>
-
                                                                     <div class="grid md:grid-cols-2 gap-4">
-
                                                                         <!-- Book Number -->
                                                                         <div>
                                                                             <label class="block text-sm font-semibold text-black mb-1">
@@ -148,7 +145,6 @@
                                                                             </label>
                                                                             <input name="book_number" value="{{$item->book_number}}" disabled type="text" class="w-full border border-gray-300 rounded px-3 py-2 bg-white">
                                                                         </div>
-
                                                                         <!-- Year -->
                                                                         <div>
                                                                             <label class="block text-sm font-semibold text-black mb-1">
@@ -156,9 +152,7 @@
                                                                             </label>
                                                                             <input name="year" value="{{$item->year}}" disabled type="text" class="w-full border border-gray-300 rounded px-3 py-2 bg-white">
                                                                         </div>
-
                                                                     </div>
-
                                                                     <!-- Status -->
                                                                     <div>
                                                                         <label class="block text-sm font-semibold text-black mb-1">
@@ -181,33 +175,21 @@
                                                                                 {{$item->status == '2' ? 'selected' : ''}}>
                                                                                 Declined
                                                                             </option>
-
                                                                         </select>
                                                                     </div>
-
                                                                 </div>
-
                                                             </div>
 
                                                             <!-- Footer -->
                                                             <div class="px-6 py-4 border-t flex justify-end gap-2">
-
-                                                                <button
-                                                                    type="button"
-                                                                    class="modal-close px-5 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
+                                                                <button type="button" class="modal-close px-5 py-2 bg-gray-500 text-white rounded hover:bg-gray-600">
                                                                     Close
                                                                 </button>
-
-                                                                <button
-                                                                    type="submit"
-                                                                    class="px-5 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">
+                                                                <button type="submit" class="px-5 py-2 bg-blue-700 text-white rounded hover:bg-blue-800">
                                                                     Update
                                                                 </button>
-
                                                             </div>
-
                                                         </form>
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -216,7 +198,7 @@
                                 @endif
                             @empty
                                 <tr>
-                                    <td colspan="6" class="px-4 py-4 text-sm font-medium text-gray-200 whitespace-nowrap text-center">
+                                    <td colspan="6" class="px-4 py-4 text-sm font-medium text-black whitespace-nowrap text-center">
                                         No data available.
                                     </td>
                                 </tr>
@@ -270,50 +252,50 @@
              </div>
          </div>
      </div>
-     <script>
-document.addEventListener('DOMContentLoaded', () => {
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
 
-    // OPEN MODAL
-    const openButtons = document.querySelectorAll('.modal-open');
+        // OPEN MODAL
+        const openButtons = document.querySelectorAll('.modal-open');
 
-    openButtons.forEach(button => {
-        button.addEventListener('click', function () {
+        openButtons.forEach(button => {
+            button.addEventListener('click', function () {
 
-            // Get the modal in the same row
-            const row = this.closest('tr');
-            const modal = row.querySelector('.modal');
+                // Get the modal in the same row
+                const row = this.closest('tr');
+                const modal = row.querySelector('.modal');
 
-            modal.classList.remove('opacity-0');
-            modal.classList.remove('pointer-events-none');
+                modal.classList.remove('opacity-0');
+                modal.classList.remove('pointer-events-none');
+            });
         });
-    });
 
-    // CLOSE MODAL BUTTON
-    const closeButtons = document.querySelectorAll('.modal-close');
+        // CLOSE MODAL BUTTON
+        const closeButtons = document.querySelectorAll('.modal-close');
 
-    closeButtons.forEach(button => {
-        button.addEventListener('click', function () {
+        closeButtons.forEach(button => {
+            button.addEventListener('click', function () {
 
-            const modal = this.closest('.modal');
+                const modal = this.closest('.modal');
 
-            modal.classList.add('opacity-0');
-            modal.classList.add('pointer-events-none');
+                modal.classList.add('opacity-0');
+                modal.classList.add('pointer-events-none');
+            });
         });
-    });
 
-    // CLOSE WHEN CLICKING OVERLAY
-    const overlays = document.querySelectorAll('.modal-overlay');
+        // CLOSE WHEN CLICKING OVERLAY
+        const overlays = document.querySelectorAll('.modal-overlay');
 
-    overlays.forEach(overlay => {
-        overlay.addEventListener('click', function () {
+        overlays.forEach(overlay => {
+            overlay.addEventListener('click', function () {
 
-            const modal = this.closest('.modal');
+                const modal = this.closest('.modal');
 
-            modal.classList.add('opacity-0');
-            modal.classList.add('pointer-events-none');
+                modal.classList.add('opacity-0');
+                modal.classList.add('pointer-events-none');
+            });
         });
-    });
 
-});
+    });
 </script>
 @include('partials.footer')

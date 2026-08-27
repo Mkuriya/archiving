@@ -17,10 +17,12 @@
       <span class="text-xs font-semibold tracking-widest text-slate-400">MANAGEMENT</span>
       <a class="hover:text-amber-500" href="/admin/dashboard/instructor/list">Instructor List</a>
       <a class="hover:text-amber-500" href="/admin/dashboard/borrow/list">Borrowed List</a>
+      <a class="hover:text-amber-500" href="/admin/dashboard/logbook/list">Log Book List</a>
+      <a class="hover:text-amber-500" href="/admin/dashboard/calendar">Calendar</a>
       <br><hr>
       <span class="text-xs font-semibold tracking-widest text-slate-400">SYSTEM</span>
       <a href="/admin/dashboard/profile/{{auth()->guard('admin')->user()->id}} "class="hover:text-amber-500">My Profile</a>
-       @if( auth()->guard('admin')->user()->id == 1)
+       @if( auth()->guard('admin')->user()->id == 1 || auth()->guard('admin')->user()->id == 2)
             <a class="hover:text-amber-500" href="/admin/dashboard/admin">
                 Admin List
             </a>

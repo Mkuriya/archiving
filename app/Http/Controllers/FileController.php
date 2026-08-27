@@ -18,7 +18,7 @@ class FileController extends Controller
             'status' => 'required',
         ]);
         $borrows = Borrow::create($validated);
-    return back()->with('success', 'Borrow Book successfully.');
+    return back()->with('success', 'Log Book successfully.');
     }
 
     public function updateAbstract(Request $request, $id)/* Function for details update */

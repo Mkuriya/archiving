@@ -25,6 +25,22 @@
         body.classList.toggle('modal-active')
     }
 
+    function printBook() {
+        const iframe = document.createElement('iframe');
+        iframe.style.display = 'none';
+        iframe.src = "{{ route('book.print_book') }}";
+
+        document.body.appendChild(iframe);
+
+        iframe.onload = function () {
+            iframe.contentWindow.print();
+
+            iframe.contentWindow.onafterprint = function () {
+                iframe.remove();
+            };
+        };
+    }
+
     function printArchive() {
         const iframe = document.createElement('iframe');
         iframe.style.display = 'none';
