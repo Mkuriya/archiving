@@ -20,4 +20,8 @@ class File extends Model
         'book_number',
         'status',
     ];
+     public function scan()
+    {
+        return $this->hasOne(BookScan::class, 'file_id');
+    }
 }

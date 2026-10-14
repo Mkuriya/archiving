@@ -1,6 +1,6 @@
 @include('partials.adminnav')
-<div class="content px-10">
-    <div class="mt-6 mb-4 md:flex md:items-center md:justify-between">
+<div class="content px-10 ">
+    <div class="mt-6 mb-4 md:flex md:items-center md:justify-between ">
         <div class="inline-flex overflow-hidden border divide-x rounded-lg rtl:flex-row-reverse border-gray-700 divide-gray-700 bg-white">
             <ul class="flex">
                 <li class="mr-3">

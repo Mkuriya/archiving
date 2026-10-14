@@ -49,11 +49,19 @@
                 <thead class="bg-gray-100">
                     <tr>
                         <th class="w-[8%] border border-black px-2 py-2 text-center font-bold">
+<<<<<<< Updated upstream
                             No.
                         </th>
 
                         <th class="w-[15%] border border-black px-2 py-2 text-center font-bold">
                             Book No.
+=======
+                            No
+                        </th>
+
+                        <th class="w-[15%] border border-black px-2 py-2 text-center font-bold">
+                            Book Number
+>>>>>>> Stashed changes
                         </th>
 
                         <th class="w-[77%] border border-black px-2 py-2 text-center font-bold">

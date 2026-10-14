@@ -127,7 +127,11 @@
                                 @endif
                             @empty
                                 <tr>
+<<<<<<< Updated upstream
                                     <td colspan="6" class="px-4 py-4 text-sm text-center text-black">
+=======
+                                    <td colspan="6" class="px-4 py-4 text-sm font-medium text-black whitespace-nowrap text-center">
+>>>>>>> Stashed changes
                                         No data available.
                                     </td>
                                 </tr>

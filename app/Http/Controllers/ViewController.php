@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\BookScan;
 use App\Models\Borrow;
 use App\Models\File;
 use App\Models\History;
@@ -10,14 +11,40 @@ use App\Models\Instructor;
 use App\Models\Instructorbook;
 use App\Models\logbook;
 use App\Models\Student;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 
 class ViewController extends Controller
 {
+<<<<<<< Updated upstream
+=======
+    public function scan(Request $request) {
+        $search = $request->input('search');
+
+        $files = File::with('scan')
+            ->where('status', 1)
+            ->when($search, function ($query) use ($search) {
+                $query->where('book_number', 'like', '%' . $search . '%');
+            })
+            ->orderByRaw(" CASE WHEN EXISTS ( SELECT 1 FROM book_scans WHERE book_scans.file_id = files.id AND book_scans.is_scanned = 1 AND book_scans.is_edited = 1 ) THEN 1 ELSE 0 END ASC ")
+            ->orderByRaw('CAST(book_number AS UNSIGNED) DESC')
+            ->paginate(10)
+            ->withQueryString();
+
+        $totalDone = File::where('status', 1)
+            ->whereHas('scan', function ($query) {
+                $query->where('is_scanned', 1)
+                    ->where('is_edited', 1);
+            })
+            ->count();
+
+        return view('books.scan', compact('files', 'totalDone'));
+    }
+
+>>>>>>> Stashed changes
     public function createlogbook(){
         return view('create_logbook');
     }
@@ -280,7 +307,7 @@ class ViewController extends Controller
         }
 
         $files = $query
-        ->orderByRaw('CAST(book_number AS UNSIGNED) ASC') // Sort by book number
+        ->orderByRaw('CAST(book_number AS UNSIGNED) DESC') // Sort by book number ASC
         ->paginate(10)
         ->appends($request->except('page'));
 
@@ -325,7 +352,7 @@ class ViewController extends Controller
 
     $totalBorrowed = Borrow::count(); // adjust to your actual model/table for borrow records
 
-    $recentUploads = File::latest()->take(8)->get();
+    $recentUploads = File::latest()->take(9)->get();
 
     $totalUpload  = File::where('status', 1)->count();
     $totalPending = File::where('status', 0)->count();

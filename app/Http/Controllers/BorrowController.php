@@ -2,11 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BookScan;
 use App\Models\Borrow;
+use App\Models\File;
 use Illuminate\Http\Request;
 
 class BorrowController extends Controller
 {
+        public function scan()
+    {
+        $files = File::with('scan')->where('status', 1)->paginate(10);
+        return view('books.scan', compact('files'));
+    }
+
+    public function toggleScan($id)
+    {
+        $scan = BookScan::firstOrCreate(['file_id' => $id]);
+        $scan->is_scanned = !$scan->is_scanned;
+        $scan->scanned_at = $scan->is_scanned ? now() : null;
+        $scan->save();
+
+        return back()->with('success', 'Scan status updated.');
+    }
+
+    public function toggleEdit($id)
+    {
+        $scan = BookScan::firstOrCreate(['file_id' => $id]);
+        $scan->is_edited = !$scan->is_edited;
+        $scan->edited_at = $scan->is_edited ? now() : null;
+        $scan->save();
+
+        return back()->with('success', 'Edit status updated.');
+    }
      public function destroy($id)
     {
         $item = Borrow::findOrFail($id);

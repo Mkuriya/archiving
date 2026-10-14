@@ -1,5 +1,5 @@
 @include('partials.adminnav')
-<link rel="stylesheet" href="/css/dashboard.css">
+<link rel="stylesheet" href="/css/dashboardd.css">
 <div class="wrap">
 
   <div class="hero">
@@ -48,7 +48,7 @@
     </div>
   </div>
  <div class="mt-2">
-      <div class="charts">
+    <!--div class="charts">
         <div class="card chart-card c-green">
           <h3>Research by year</h3>
           <div class="chart-box"><canvas id="yearChart"></canvas></div>
@@ -58,13 +58,13 @@
             <div class="chart-row">
                 <div class="chart-box"><canvas id="deptChart"></canvas></div>
                 <div class="legend">
-                <div class="legend-row"><span><span class="dot" style="background:#2E6FE0;"></span>BSAMT</span><span>{{ $deptDistribution['BSAMT'] ?? 0 }}%</span></div>
-                <div class="legend-row"><span><span class="dot" style="background:#1AA05B;"></span>BSEAT</span><span>{{ $deptDistribution['BSAET'] ?? 0 }}%</span></div>
-                <div class="legend-row"><span><span class="dot" style="background:#9AA4B2;"></span>Others</span><span>{{ $deptDistribution['Others'] ?? 0 }}%</span></div>
+                    <div class="legend-row"><span><span class="dot" style="background:#2E6FE0;"></span>BSAMT</span><span>{{ $deptDistribution['BSAMT'] ?? 0 }}%</span></div>
+                    <div class="legend-row"><span><span class="dot" style="background:#1AA05B;"></span>BSEAT</span><span>{{ $deptDistribution['BSAET'] ?? 0 }}%</span></div>
+                    <div class="legend-row"><span><span class="dot" style="background:#9AA4B2;"></span>Others</span><span>{{ $deptDistribution['Others'] ?? 0 }}%</span></div>
                 </div>
             </div>
-            </div>
-      </div>
+        </div>
+    </div-->
   </div>
   <div class="layout">
     <div class="left-col">
@@ -115,16 +115,12 @@
             <div><div class="t">Borrow books</div><div class="s">Manage borrow requests</div></div>
             <span class="chev">›</span>
           </a>
-          <a class="act a-purple" href="/admin/dashboard/search">
-            <div class="glyph"><svg class="icon" viewBox="0 0 24 24" style="stroke:#fff;"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
-            <div><div class="t">Search research</div><div class="s">Search archived research</div></div>
-            <span class="chev">›</span>
-          </a>
-            <a class="act a-slate" href="/admin/dashboard/instructor">
-            <div class="glyph"><svg class="icon" viewBox="0 0 24 24" style="stroke:#fff;"><circle cx="12" cy="8" r="3"/><path d="M5 20c0-4 3-6 7-6s7 2 7 6"/></svg></div>
-            <div><div class="t">Instructor directory</div><div class="s">Search instructors</div></div>
-            <span class="chev">›</span>
+            <a class="act a-purple" href="/admin/dashboard/search">
+                <div class="glyph"><svg class="icon" viewBox="0 0 24 24" style="stroke:#fff;"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg></div>
+                <div><div class="t">Search research</div><div class="s">Search archived research</div></div>
+                <span class="chev">›</span>
             </a>
+<<<<<<< Updated upstream
             <a class="act a-teal" href="/admin/dashboard/calendar">
             <div class="glyph">
                 <svg class="icon" viewBox="0 0 24 24" fill="none" style="stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"> <rect x="3" y="4" width="18" height="17" rx="2"></rect>
@@ -133,6 +129,31 @@
             </div>
             <div><div class="t">Calendar</div><div class="s">View all Schedule</div></div>
             <span class="chev">›</span>
+=======
+            <a class="act a-slate" href="/admin/dashboard/instructor">
+                <div class="glyph"><svg class="icon" viewBox="0 0 24 24" style="stroke:#fff;"><circle cx="12" cy="8" r="3"/><path d="M5 20c0-4 3-6 7-6s7 2 7 6"/></svg></div>
+                <div><div class="t">Instructor directory</div><div class="s">Search instructors</div></div>
+                <span class="chev">›</span>
+            </a>
+            <a class="act a-teal" href="/admin/dashboard/calendar">
+                <div class="glyph">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" style="stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;"> <rect x="3" y="4" width="18" height="17" rx="2"></rect>
+                        <line x1="8" y1="2" x2="8" y2="6"></line> <line x1="16" y1="2" x2="16" y2="6"></line> <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                </div>
+                <div><div class="t">Calendar</div><div class="s">View all Schedule</div></div>
+                <span class="chev">›</span>
+            </a>
+            <a class="act a-rose" href="/admin/dashboard/scan">
+                <div class="glyph" style="background:#e11d48;">
+                    <svg class="icon" viewBox="0 0 24 24" fill="none" style="stroke:#fff;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;">
+                        <path d="M3 7V5a2 2 0 012-2h2M17 3h2a2 2 0 012 2v2M21 17v2a2 2 0 01-2 2h-2M7 21H5a2 2 0 01-2-2v-2"/>
+                        <line x1="7" y1="12" x2="17" y2="12"/>
+                    </svg>
+                </div>
+                <div><div class="t">Scan</div><div class="s">Book Scan List</div></div>
+                <span class="chev">›</span>
+>>>>>>> Stashed changes
             </a>
         </div>
       </div>

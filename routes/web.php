@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\BorrowController;
+use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\InstructorController;
 use App\Http\Controllers\LogBookController;
@@ -73,8 +74,12 @@ Route::controller(LogBookController::class)->group(function(){
 Route::controller(BorrowController::class)->group(function(){
 
     Route::delete('/items/{id}', 'destroy')->name('items.destroy');
-
     Route::put('/admin/dashboard/borrow/list/{file}', 'borrowUpdate');
+
+    Route::get('/admin/dashboard/archive/scan', 'scan')->name('books.scan');
+    Route::post('/admin/dashboard/archive/toggle-scan/{id}', 'toggleScan')->name('books.toggleScan');
+    Route::post('/admin/dashboard/archive/toggle-edit/{id}', 'toggleEdit')->name('books.toggleEdit');
+
 });
 
 Route::controller(ViewController::class)->group(function(){
@@ -113,6 +118,10 @@ Route::controller(ViewController::class)->group(function(){
     Route::get('/admin/dashboard/logbook', 'logbook')->middleware('auth:admin');
     Route::get('/create/logbook', 'createlogbook');
     Route::get('/admin/dashboard/print', 'print_book')->name('book.print_book')->middleware('auth:admin');
+<<<<<<< Updated upstream
+=======
+    Route::get('/admin/dashboard/scan', 'scan')->middleware('auth:admin');
+>>>>>>> Stashed changes
 });
 
 Route::controller(InstructorController::class)->group(function(){
@@ -126,6 +135,12 @@ Route::get('/admin/login', function () {
 })->name('home');
 
 
+
+Route::controller(CalendarController::class)->group(function(){
+    Route::get('/calendar/load', 'load');
+    Route::post('/calendar/save','save');
+    Route::delete('/calendar/delete','delete');
+});
 
 
 

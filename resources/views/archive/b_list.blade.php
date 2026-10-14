@@ -2,22 +2,51 @@
 <div class="bg-gray-800 rounded-xl shadow-xl p-6 mt-4 mx-4 text-white">
 
     <!-- Header -->
-    <div class="flex justify-between items-center mb-4">
-        <h2 class="text-2xl font-bold ">
-            📚 Borrow Records
-        </h2>
+    <!-- Header -->
+<div class="grid grid-cols-1 lg:grid-cols-3 items-center gap-4 mb-5">
 
-        <a href="/admin/dashboard/borrow"
-           class="px-5 py-2 bg-blue-700 hover:bg-blue-800 text-white rounded-lg transition">
-            + New Borrow
-        </a>
-    </div>
+    <!-- Left: Title -->
+    <h2 class="text-2xl font-bold text-white whitespace-nowrap justify-self-start">
+        📚 Borrow Records
+    </h2>
 
-    <!-- Search -->
-    <div class="mb-5">
-        <input type="text" id="borrowSearch" placeholder="Search student, title, or book number..."
-            class="w-full md:w-96 px-4 py-3 rounded-lg bg-gray-800 border text-white border-gray-600 focus:border-white focus:outline-none">
-    </div>
+    <!-- Center: Search -->
+    <form method="GET" action="" onsubmit="return false;" class="w-full flex justify-center">
+        <div class="relative w-full sm:w-72 lg:w-80">
+            <!-- Left search icon (decorative) -->
+            <span class="absolute inset-y-0 left-0 flex items-center pl-4 text-gray-400 pointer-events-none">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 10.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"/>
+                </svg>
+            </span>
+
+            <input type="text" id="borrowSearch" name="search" value="{{ request('search') }}" autocomplete="off" placeholder="Search..."
+                class="w-full pl-10 pr-20 py-3 rounded-lg bg-white border border-gray-300 text-gray-800 placeholder-gray-400 shadow-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 focus:outline-none transition">
+
+            <!-- Right-side buttons: clear + submit -->
+            <div class="absolute inset-y-0 right-0 flex items-center pr-2 gap-1">
+                <button type="button" id="clearSearch" onclick="clearBorrowSearch()"
+                    class="hidden items-center justify-center w-8 h-8 text-gray-400 hover:text-gray-600 hover:bg-gray-100 rounded-md transition" title="Clear search">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+
+                <button type="submit" class="flex items-center justify-center w-8 h-8 text-white bg-blue-700 hover:bg-blue-800 active:bg-blue-900 rounded-md shadow-sm transition" title="Search">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 10.5a6.5 6.5 0 11-13 0 6.5 6.5 0 0113 0z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Right: New Borrow button -->
+    <a href="/admin/dashboard/borrow"
+       class="px-5 py-2 bg-blue-900 hover:bg-gray-700 text-white rounded-lg transition text-center whitespace-nowrap justify-self-end">
+        + New Borrow
+    </a>
+</div>
 
     <!-- Table -->
     <div class="overflow-x-auto rounded-lg border border-gray-700">
